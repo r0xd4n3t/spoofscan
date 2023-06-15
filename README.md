@@ -35,12 +35,12 @@ The script uses the Scapy library for crafting and sending network packets.
 
 1. Clone the repository to your local machine:
 ```
-git clone https://github.com/your-username/network-spoofing-scanning-script.git
+git clone https://github.com/r0xd4n3t/spoofscan.git
 ```
 
 2. Change to the project directory:
 ```
-cd network-spoofing-scanning-script
+cd spoofscan
 ```
 
 3. Run the script with the following command:
