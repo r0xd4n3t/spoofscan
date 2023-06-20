@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import argparse
-from scapy.all import *
 import colorama
 from colorama import Fore, Style
+from scapy.all import *
 
 def perform_scan(protocol, spoofed_ip, target_ip):
     open_ports = []
@@ -40,22 +40,21 @@ def main(spoofed_ip, target_ip):
     print(f"{Fore.YELLOW}Spoofed IP: {spoofed_ip}{Style.RESET_ALL}")
     print(f"{Fore.YELLOW}Target IP: {target_ip}{Style.RESET_ALL}\n")
 
-    # Perform TCP scan
-    print(f"{Fore.CYAN}Performing TCP scan...{Style.RESET_ALL}")
-    tcp_open_ports = perform_scan(TCP, spoofed_ip, target_ip)
-    print_open_ports("TCP", tcp_open_ports)
-    print()
+    protocols = [
+        {"name": "TCP", "scan_func": TCP},
+        {"name": "UDP", "scan_func": UDP}
+    ]
 
-    # Perform UDP scan
-    print(f"{Fore.CYAN}Performing UDP scan...{Style.RESET_ALL}")
-    udp_open_ports = perform_scan(UDP, spoofed_ip, target_ip)
-    print_open_ports("UDP", udp_open_ports)
-    print()
+    for protocol in protocols:
+        print(f"{Fore.CYAN}Performing {protocol['name']} scan...{Style.RESET_ALL}")
+        open_ports = perform_scan(protocol['scan_func'], spoofed_ip, target_ip)
+        print_open_ports(protocol['name'], open_ports)
+        print()
 
     # Summary
     print(f"{Fore.GREEN}Scan complete!{Style.RESET_ALL}")
-    print(f"TCP ports scanned: {len(tcp_open_ports)}")
-    print(f"UDP ports scanned: {len(udp_open_ports)}")
+    print(f"TCP ports scanned: {len(open_ports[0])}")
+    print(f"UDP ports scanned: {len(open_ports[1])}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Network Spoofing Scanning Script")
